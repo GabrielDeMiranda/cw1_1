@@ -19,6 +19,7 @@
 
 <body>
     <div class="container" id="app">
+        <img :src="'https://mevncw2.herokuapp.com/img/logo.82b9c7a5.png' + vueimage" />
         <header class="header" v-if="showProduct">
             <div class="flex-space mb-3 mt-3">
                 <h1 v-text="sitename"></h1>
@@ -35,6 +36,9 @@
                     <div class="card-body">
                         <h5 class="card-title" v-text="product.title"></h5>
                         <p class="card-text" v-html="product.description"></p>
+                        <p class="card-price">Price: £{{product.price}}</p> 
+                        <p class="inventory">Classes available: {{product.availableInventory}}</p>
+                       
 
                         <a href="#" class="card-link" v-on:click="addToCart(product)" v-if='canAddToCart(product)'
                             v-on:click.prevent="decrement(product)">

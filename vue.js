@@ -58,6 +58,7 @@ const services = {
 var webstore = new Vue({
     el: "#app",
     data: {
+        vueimage: '100x100',
         showProduct: true,
         checkouted: false,
         loading: false,
