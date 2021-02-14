@@ -1,70 +1,165 @@
-var webstore = new Vue({
-    el: "#app",
-    data: {
-        showProduct: true,
-        products: [],
-        errors: [],
-        order: {
-            firstName: null,
-            phoneNumber: null,
-        },
-        sitename: "Classes & Activities",
-        carts: []
-    },
-    mounted() {
+const baseUri = 'https://mevncw2.herokuapp.com';
+
+const services = {
+    getLessons: (cb) => {
         const options = {
             method: 'GET',
             headers: new Headers(),
             mode: 'cors',
             cache: 'default'
         };
-
-        fetch("http://localhost:3000/api/products", options)
+        
+        fetch(`${baseUri}/api/lessons`, options)
             .then((response) => response.json())
-            .then((data) => {
+            .then((data) => cb(data));
+    },
+
+    postOrder: (payload, cb) => {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        };
+
+        fetch(`${baseUri}/api/orders`, options)
+            .then((data) => cb(data));
+    },
+
+    putLesson: (payload, cb) => {
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        };
+
+        fetch(`${baseUri}/api/lessons/${payload.id}`, options)
+            .then((data) => cb(data));
+    },
+
+    removeOrder: (payload, cb) => {
+        const options = {
+            method: 'DELETE',
+            headers: new Headers(),
+            mode: 'cors',
+            cache: 'default',
+        };
+
+        fetch(`${baseUri}/api/orders/${payload.id}`, options)
+            .then((data) => cb(data));
+    }
+}
+
+var webstore = new Vue({
+    el: "#app",
+    data: {
+        showProduct: true,
+        checkouted: false,
+        loading: false,
+        checkouting: false,
+        products: [],
+        errors: [],
+        order: {},
+        sitename: "Classes & Activities",
+        carts: []
+    },
+    mounted() {
+        this.resetOrder();
+        this.loadProducts();
+    },
+    methods: {
+        resetOrder() {
+            this.carts = [];
+            this.order.firstName = null;
+            this.order.phoneNumber = null;
+        },
+
+        loadProducts() {
+            this.loading = true;
+            services.getLessons((data) => {
                 this.products = data;
                 this.loading = false;
             });
-    },
-    methods: {
-        decrement(product) {
-            if (product.availableInventory > 0) {
-                product.availableInventory--;
-            }
         },
+
         addToCart(product) {
             const existsProduct = this.carts.find(item => item.title === product.title);
 
             if (!existsProduct) {
-                this.carts.push({ title: product.title, count: 1 });
-                return;
-            } 
+                this.carts.push({ title: product.title, count: 0, id: product.id });
+            }
 
             this.carts.forEach((item) => {
-                if (item.title === product.title) {
+                if (item.id === product.id) {
                     item.count++;
+                    product.availableInventory--;
                 }
             });
         },
+
         showCheckout() {
             this.showProduct = !this.showProduct;
+
+            if (!!this.showProduct) {
+                this.resetOrder();
+                this.loadProducts();
+            }
         },
-        submitForm() {
+
+        submitForm(e) {
+            e.preventDefault();
+
+            this.checkForm();
+
+            if (this.errors.length > 0) 
+                return;
+
+            const payload = {
+                customer: {
+                    firstName: this.order.firstName,
+                    phoneNumber: this.order.phoneNumber,
+                },
+                lessons: [
+                    ...this.carts
+                ]
+            };
+
+            this.checkouting = true;
+
+            services.postOrder(payload, () => {
+                this.carts.forEach((cart) => {
+                    const payloadLesson = {
+                        id: cart.id,
+                        total: cart.count
+                    };
+
+                    services.putLesson(payloadLesson, () => {
+                        this.checkouted = true;
+                        this.checkouting = false;
+                    });
+                });
+            });
         },
+
         canAddToCart(product) {
             return product.availableInventory > this.cartCount(product.id)
         },
+
         cartCount(id) {
             const count = this.carts.filter(item => item.id === id).length;
-            // for (let i = 0; i < this.cart.length; i++) {
-            //     if (this.cart[i] === id) count++;
-            // }
             return count;
         },
-        checkForm(e) {
-            if (this.order.firstName && this.order.phoneNumber) return;
 
+        checkForm() {
             this.errors = [];
+
+            if (this.order.firstName && this.order.phoneNumber) 
+                return;
 
             if (!this.order.firstName) {
                 this.errors.push('Please enter your first name.');
@@ -72,8 +167,12 @@ var webstore = new Vue({
             if (!this.order.phoneNumber) {
                 this.errors.push('Please enter your phone number name');
             }
-
-            e.preventDefault();
         },
+
+        removeOrder(order) {
+            services.removeOrder(order, (data) => {
+                console.log(data);
+            });
+        }
     }
 });
