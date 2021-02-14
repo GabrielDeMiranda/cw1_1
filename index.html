@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Classes & Activities</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="styles/styles.css" type="text/css">
+
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <header class="header" v-if="showProduct">
+            <div class="flex-space mb-3 mt-3">
+                <h1 v-text="sitename"></h1>
+                <button class="btn btn-outline-primary" @click='showCheckout' v-if='this.carts.length > 0'>
+                    <span class="fa fa-cart-plus"></span>
+                    {{this.carts.length}} Class in Cart
+                </button>
+            </div>
+        </header>
+        <main>
+
+            <div class="row" v-if='showProduct'>
+                <div class="card shadow-sm" style="width: 25%; margin: 10px;" v-for="product in this.products">
+                    <div class="card-body">
+                        <h5 class="card-title" v-text="product.title"></h5>
+                        <p class="card-text" v-html="product.description"></p>
+
+                        <a href="#" class="card-link" v-on:click="addToCart(product)" v-if='canAddToCart(product)'
+                            v-on:click.prevent="decrement(product)">
+                            Add To Cart
+                        </a>
+
+                        <hr>
+
+                        <span class="alert alert-warning warning" role="alert"
+                            v-if='product.availableInventory === cartCount(product.id)'>
+                            <i class="fa fa-ban"></i>
+                            All out!
+                        </span>
+
+                        <span v-else-if='product.availableInventory - cartCount(product.id) < 5'>
+                            Only {{product.availableInventory - cartCount(product.id)}} left
+                        </span>
+
+                        <span v-else class="alert alert-light warning">
+                            Buy now!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div v-else>
+                <div class="flex mb-3 mt-3">
+                    <button class="btn btn-outline-dark" style="margin-right: 10px;" @click='showCheckout'>
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    <h1>Checkout</h1>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <h3 class="mb-3">Personal Data</h3>
+
+                        <form id="app" @submit="checkForm" action="/something" method="post">
+                            <div class="alert alert-danger" role="alert" v-if="errors.length">
+                                <h5>Please correct the following error(s):</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li v-for="error in this.errors" class="list-group-item">
+                                        {{ error }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="order.firstName" class="form-label">First Name: </label>
+                                <input type="text" class="form-control" name="order.firstName" id="order.firstName"
+                                    v-model="order.firstName">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="order.phoneNumber" class="form-label">Phone Number: </label>
+                                <input type="number" class="form-control" name="phoneNumber" id="order.phoneNumber"
+                                    v-model="order.phoneNumber">
+                            </div>
+
+                            <input type="submit" class="btn btn-primary" value="Checkout" @click="submitForm">
+                        </form>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <h3>Order Information</h3>
+
+                        <div>First Name: {{order.firstName}}</div>
+                        <div>Phone Number: {{order.phoneNumber}}</div>
+                        <div>Lessons you have selected:</div>
+                        <ul class="list-group" v-for="cart in this.carts">
+                            <li class="list-group-item">
+                                <span class="badge bg-secondary">
+                                    {{ cart.count }}
+                                </span>
+                                {{ cart.title }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
+<script src="vue.js"></script>
