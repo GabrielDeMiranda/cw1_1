@@ -13,11 +13,18 @@
         integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
         crossorigin="anonymous" />
     <link rel="stylesheet" href="styles/styles.css" type="text/css">
-
+    <link rel="manifest" href="manifest.json">
     <script src="https://unpkg.com/vue"></script>
 </head>
 
+
 <body>
+    <script>
+        if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js')
+            }
+    </script>
+
     <div class="container" id="app">
         <img :src="'https://mevncw2.herokuapp.com/img/logo.82b9c7a5.png' + vueimage" />
         <header class="header" v-if="showProduct">

@@ -1,0 +1,15 @@
+{
+    "name": "Classes & Lessons",
+    "short_name": "Classes",
+    "description": "Book online classes",
+    "icons": [
+        {
+            "src":"logo.82b9c7a5.png",
+            "sizes": "200x200",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/index.html",
+    "display": "fullscreen",
+    "background_color": "#B12A34"
+}

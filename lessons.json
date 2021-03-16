@@ -1,0 +1,127 @@
+[{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded6a"
+  },
+  "id": 1006,
+  "title": "Maths",
+  "description": "Class of Maths",
+  "price": 10,
+  "image": "",
+  "availableInventory": 13,
+  "location": "Cambridge",
+  "updatedAt": {
+    "$date": "2021-02-17T15:07:57.792Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded6c"
+  },
+  "id": 1008,
+  "title": "Physics",
+  "description": "Class of Physics",
+  "price": 20,
+  "image": "",
+  "availableInventory": 15,
+  "location": "Cambridge",
+  "updatedAt": {
+    "$date": "2021-02-13T18:25:39.315Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded67"
+  },
+  "id": 1003,
+  "title": "Physics",
+  "description": "Class of Physics",
+  "price": 20,
+  "image": "",
+  "availableInventory": 10,
+  "location": "London",
+  "updatedAt": {
+    "$date": "2021-02-17T15:07:57.790Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded66"
+  },
+  "id": 1002,
+  "title": "Science",
+  "description": "Class of Science",
+  "price": 15,
+  "image": "",
+  "availableInventory": 94,
+  "location": "London",
+  "updatedAt": {
+    "$date": "2021-02-17T15:08:57.030Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded68"
+  },
+  "id": 1004,
+  "title": "Geometry",
+  "description": "Class of Geomtry",
+  "price": 22,
+  "image": "",
+  "availableInventory": 1,
+  "location": "London",
+  "updatedAt": {
+    "$date": "2021-02-17T15:07:57.784Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded69"
+  },
+  "id": 1005,
+  "title": "WebApp",
+  "description": "Class of WebApp",
+  "price": 99,
+  "image": "",
+  "availableInventory": 13,
+  "location": "London",
+  "updatedAt": {
+    "$date": "2021-02-17T15:07:57.797Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded6b"
+  },
+  "id": 1007,
+  "title": "Science",
+  "description": "Class of Science",
+  "price": 15,
+  "image": "",
+  "availableInventory": 14,
+  "location": "Cambridge",
+  "updatedAt": {
+    "$date": "2021-02-13T20:40:57.204Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded6e"
+  },
+  "id": 1010,
+  "title": "Ecommerce",
+  "description": "Class of Ecommerce",
+  "price": 3000,
+  "image": "",
+  "availableInventory": 41,
+  "location": "Cambridge",
+  "updatedAt": {
+    "$date": "2021-02-13T20:40:57.466Z"
+  }
+},{
+  "_id": {
+    "$oid": "6027ca0b046c5e23b05ded6d"
+  },
+  "id": 1009,
+  "title": "Geometry",
+  "description": "Class of Geomtry",
+  "price": 22,
+  "image": "",
+  "availableInventory": 15,
+  "location": "Cambridge",
+  "updatedAt": {
+    "$date": "2021-02-13T18:25:39.375Z"
+  }
+}]
